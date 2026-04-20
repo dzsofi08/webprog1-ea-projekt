@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3. feladat - React CRUD</title>
+    
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script src="../task2/script.js"></script> 
+
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        ._form { margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px; width: fit-content; }
+        ._form div { margin-bottom: 10px; }
+        ._form label { display: inline-block; width: 80px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        button { margin-right: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const initialData = [
+            { id: 1, nev: "Példa Hely", varos: "Budapest", ferohely: 500 }
+        ];
+
+        function App() {
+            const [items, setItems] = React.useState(typeof DATA !== 'undefined' ? DATA : initialData);
+            const [formData, setFormData] = React.useState({ id: '', nev: '', varos: '', ferohely: '' });
+            const [isEditing, setIsEditing] = React.useState(false);
+
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setFormData({ ...formData, [name]: value });
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                
+                if (!formData.id || !formData.nev || !formData.varos || !formData.ferohely) {
+                    alert("Minden mezőt kötelező kitölteni!");
+                    return;
+                }
+
+                if (isEditing) {
+                    setItems(items.map(item => item.id == formData.id ? formData : item));
+                    setIsEditing(false);
+                } else {
+                    if (items.find(item => item.id == formData.id)) {
+                        alert("Ezzel az ID-val már létezik elem!");
+                        return;
+                    }
+                    setItems([...items, formData]);
+                }
+                
+                setFormData({ id: '', nev: '', varos: '', ferohely: '' });
+            };
+
+            const handleEdit = (item) => {
+                setFormData(item);
+                setIsEditing(true);
+            };
+
+            const handleDelete = (id) => {
+                setItems(items.filter(item => item.id !== id));
+            };
+
+            return (
+                <div>
+                    <h2>React CRUD - 3. Feladat</h2>
+                    <div className="_form">
+                        <form onSubmit={handleSubmit}>
+                            <div><label>ID</label><input type="number" name="id" value={formData.id} onChange={handleInputChange} disabled={isEditing} /></div>
+                            <div><label>Név</label><input type="text" name="nev" value={formData.nev} onChange={handleInputChange} /></div>
+                            <div><label>Város</label><input type="text" name="varos" value={formData.varos} onChange={handleInputChange} /></div>
+                            <div><label>Férőhely</label><input type="number" name="ferohely" value={formData.ferohely} onChange={handleInputChange} /></div>
+                            <button type="submit">{isEditing ? "Mentés" : "Hozzáadás"}</button>
+                            {isEditing && <button type="button" onClick={() => { setIsEditing(false); setFormData({ id: '', nev: '', varos: '', ferohely: '' }); }}>Mégse</button>}
+                        </form>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Név</th><th>Város</th><th>Férőhely</th><th>Műveletek</th></tr>
+                        </thead>
+                        <tbody>
+                            {items.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.id}</td><td>{item.nev}</td><td>{item.varos}</td><td>{item.ferohely}</td>
+                                    <td>
+                                        <button onClick={() => handleEdit(item)}>Szerkesztés</button>
+                                        <button onClick={() => handleDelete(item.id)}>Törlés</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
