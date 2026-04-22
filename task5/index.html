@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. feladat</title>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="_form">
+        <form onsubmit="event.preventDefault(); submitForm();">
+            <div>
+                <label>Név</label>
+                <input type="text" name="name" id="name">
+            </div>
+
+            <div>
+                <label>Város</label>
+                <input type="text" name="city" id="city">
+            </div>
+
+            <div>
+                <label>Férőhely</label>
+                <input type="number" name="capacity" id="capacity">
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Név</th>
+            <th>Város</th>
+            <th>Férőhely</th>
+            <th>Műveletek</th>
+        </tr>
+        <tbody id="tableBody"></tbody>
+    </table>
+</body>
+
+</html>
