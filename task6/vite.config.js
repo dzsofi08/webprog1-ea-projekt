@@ -6,7 +6,7 @@ export default defineConfig({
   base: './',
   build: {
     rollupOptions: {
-      input: 'base.html'
+      input: 'fetchapi.html'
     }
   }
 })

@@ -56,7 +56,7 @@ class Square extends Shape {
 
 window.addEventListener('DOMContentLoaded', () => {
   const btn = document.createElement('button');
-  btn.textContent = '🎲 Új alakzat generálása';
+  btn.textContent = 'Új alakzat generálása';
   btn.style.cssText = 'padding: 10px 20px; font-size: 16px; margin: 0 20px; cursor: pointer;';
   document.body.appendChild(btn);
 
